@@ -2,37 +2,45 @@
   "id": "sprint_2025-06-23",
   "data_inicio": "2025-06-23",
   "bloco_min": 30,
-  "tarefas": [],
+  "tarefas": [
+    {
+      "nome": "Execute EDT Testing",
+      "tempo_estimado": 15.0,
+      "tempo_gasto": 3.5,
+      "blocos_restantes": 23,
+      "cor": "#96b7ce"
+    }
+  ],
   "slots": [
     {
       "datetime": "2025-06-23 07:30",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute EDT Testing"
     },
     {
       "datetime": "2025-06-23 08:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute EDT Testing"
     },
     {
       "datetime": "2025-06-23 08:30",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute EDT Testing"
     },
     {
       "datetime": "2025-06-23 09:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute EDT Testing"
     },
     {
       "datetime": "2025-06-23 09:30",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute EDT Testing"
     },
     {
       "datetime": "2025-06-23 10:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute EDT Testing"
     },
     {
       "datetime": "2025-06-23 10:30",
@@ -91,8 +99,8 @@
     },
     {
       "datetime": "2025-06-23 16:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute EDT Testing"
     },
     {
       "datetime": "2025-06-23 16:30",

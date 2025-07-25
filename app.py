@@ -186,3 +186,14 @@ if 'sprint' in locals():
                         )
                 else:
                     colunas[i+1].markdown("—")
+
+if 'sprint' in locals() and sprint is not None:
+    slots_restantes = len(sprint.get_slots_livres())
+    duracao_total_horas = len(sprint.slots) * (sprint.bloco_min / 60)
+    st.markdown(f"**Slots livres restantes:** {slots_restantes}")
+    st.markdown(f"**Duração total da sprint:** {duracao_total_horas:.1f} horas")
+    horas_restantes = sum(t.blocos_restantes for t in sprint.tarefas) * (sprint.bloco_min / 60)
+    horas_performadas = sum(t.tempo_gasto for t in sprint.tarefas)
+    st.markdown("---")
+    st.markdown(f"**⏳ Horas restantes a alocar:** {horas_restantes:.1f} h")
+    st.markdown(f"**✅ Horas já performadas:** {horas_performadas:.1f} h")

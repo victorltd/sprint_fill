@@ -1,0 +1,910 @@
+{
+  "id": "sprint_2025-07-23",
+  "data_inicio": "2025-07-23",
+  "bloco_min": 30,
+  "tarefas": [
+    {
+      "nome": "Execute EDT",
+      "tempo_estimado": 13.0,
+      "tempo_gasto": 13.0,
+      "blocos_restantes": -3,
+      "cor": "#1fb47a"
+    },
+    {
+      "nome": "Weekly Tasks",
+      "tempo_estimado": 10.0,
+      "tempo_gasto": 1.5,
+      "blocos_restantes": 17,
+      "cor": "#b4711f"
+    },
+    {
+      "nome": "CTFL",
+      "tempo_estimado": 5.0,
+      "tempo_gasto": 0.0,
+      "blocos_restantes": 10,
+      "cor": "#e01667"
+    }
+  ],
+  "slots": [
+    {
+      "datetime": "2025-07-23 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 09:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-23 09:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-23 10:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-23 10:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-23 11:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-23 11:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-23 13:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-23 13:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-23 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 14:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-23 15:00",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-23 15:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-23 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 07:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 08:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 08:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 09:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 09:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 10:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 10:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 11:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 11:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 13:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 13:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 14:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 14:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 15:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 15:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 16:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 16:30",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-24 17:00",
+      "status": "ocupado",
+      "tarefa": "Execute EDT"
+    },
+    {
+      "datetime": "2025-07-25 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 17:00",
+      "status": "livre",
+      "tarefa": null
+    }
+  ]
+}
