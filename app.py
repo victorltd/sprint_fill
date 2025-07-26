@@ -197,3 +197,37 @@ if 'sprint' in locals() and sprint is not None:
     st.markdown("---")
     st.markdown(f"**⏳ Horas restantes a alocar:** {horas_restantes:.1f} h")
     st.markdown(f"**✅ Horas já performadas:** {horas_performadas:.1f} h")
+
+def gerar_relatorio_sprint(sprint):
+    total_slots = len(sprint.slots)
+    slots_ocupados = len([s for s in sprint.slots if s.status == "ocupado"])
+    slots_livres = len([s for s in sprint.slots if s.status == "livre"])
+    duracao_total_horas = total_slots * (sprint.bloco_min / 60)
+    horas_performadas = sum(t.tempo_gasto for t in sprint.tarefas)
+    horas_restantes = sum(t.blocos_restantes for t in sprint.tarefas) * (sprint.bloco_min / 60)
+    tarefas_total = len(sprint.tarefas)
+    tarefas_concluidas = len([t for t in sprint.tarefas if t.blocos_restantes == 0])
+    tarefas_pendentes = tarefas_total - tarefas_concluidas
+
+    st.header("📊 Relatório da Sprint")
+    st.markdown(f"- **ID da Sprint:** `{sprint.id}`")
+    st.markdown(f"- **Data de início:** `{sprint.data_inicio.strftime('%Y-%m-%d')}`")
+    st.markdown(f"- **Duração total:** `{duracao_total_horas:.1f} horas`")
+    st.markdown(f"- **Total de slots:** `{total_slots}`")
+    st.markdown(f"- **Slots ocupados:** `{slots_ocupados}`")
+    st.markdown(f"- **Slots livres:** `{slots_livres}`")
+    st.markdown(f"- **Horas já performadas:** `{horas_performadas:.1f} h`")
+    st.markdown(f"- **Horas restantes a alocar:** `{horas_restantes:.1f} h`")
+    st.markdown(f"- **Total de tarefas:** `{tarefas_total}`")
+    st.markdown(f"- **Tarefas concluídas:** `{tarefas_concluidas}`")
+    st.markdown(f"- **Tarefas pendentes:** `{tarefas_pendentes}`")
+
+    st.subheader("⏱️ Detalhes das tarefas")
+    for t in sprint.tarefas:
+        st.markdown(
+            f"- **{t.nome}** | Estimado: `{t.tempo_estimado} h` | Gasto: `{t.tempo_gasto:.1f} h` | Restante: `{t.blocos_restantes * (sprint.bloco_min / 60):.1f} h`"
+        )
+
+# ...no final do app.py, após todas as visualizações...
+if 'sprint' in locals() and sprint is not None:
+    gerar_relatorio_sprint(sprint)
