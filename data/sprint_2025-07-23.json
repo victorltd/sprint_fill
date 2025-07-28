@@ -7,14 +7,14 @@
       "nome": "Execute EDT",
       "tempo_estimado": 13.0,
       "tempo_gasto": 13.0,
-      "blocos_restantes": -3,
+      "blocos_restantes": 0,
       "cor": "#1fb47a"
     },
     {
       "nome": "Weekly Tasks",
       "tempo_estimado": 10.0,
-      "tempo_gasto": 1.5,
-      "blocos_restantes": 17,
+      "tempo_gasto": 2.5,
+      "blocos_restantes": 15,
       "cor": "#b4711f"
     },
     {
@@ -23,6 +23,13 @@
       "tempo_gasto": 0.0,
       "blocos_restantes": 10,
       "cor": "#e01667"
+    },
+    {
+      "nome": "Execute C220B",
+      "tempo_estimado": 4.0,
+      "tempo_gasto": 4.0,
+      "blocos_restantes": 0,
+      "cor": "#bbce12"
     }
   ],
   "slots": [
@@ -208,13 +215,13 @@
     },
     {
       "datetime": "2025-07-25 07:30",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
     },
     {
       "datetime": "2025-07-25 08:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
     },
     {
       "datetime": "2025-07-25 08:30",
@@ -248,43 +255,43 @@
     },
     {
       "datetime": "2025-07-25 11:30",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute C220B"
     },
     {
       "datetime": "2025-07-25 13:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute C220B"
     },
     {
       "datetime": "2025-07-25 13:30",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute C220B"
     },
     {
       "datetime": "2025-07-25 14:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute C220B"
     },
     {
       "datetime": "2025-07-25 14:30",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute C220B"
     },
     {
       "datetime": "2025-07-25 15:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute C220B"
     },
     {
       "datetime": "2025-07-25 15:30",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute C220B"
     },
     {
       "datetime": "2025-07-25 16:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute C220B"
     },
     {
       "datetime": "2025-07-28 07:30",
