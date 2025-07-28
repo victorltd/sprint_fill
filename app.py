@@ -5,12 +5,29 @@ from datetime import datetime
 from models.sprint import Sprint
 from core.task_manager import criar_tarefa, alocar_slot_manual
 from storage.file_store import salvar_sprint, carregar_sprint
+from storage.db_store import salvar_sprint_db, carregar_sprint_db
+from core.auth import login, check_auth, get_current_user, logout
 import os
+
+st.set_page_config(page_title="Sprint Scheduler", layout="wide")  # <-- PRIMEIRO comando Streamlit
 
 DATA_DIR = "data"
 
+
+# ----------- AUTENTICAÇÃO -----------
+if not check_auth():
+    login()
+    st.stop()
+
+user = get_current_user()
+st.sidebar.success(f"Logado como: {user.email}")
+if st.sidebar.button("🚪 Logout"):
+    logout()
+
+
 # ----------- SESSÃO -----------
-st.set_page_config(page_title="Sprint Scheduler", layout="wide")
+#st.set_page_config(page_title="Sprint Scheduler", layout="wide")
+
 st.title("🕒 Sprint Scheduler Ágil")
 
 # ----------- CARREGAR OU CRIAR SPRINT -----------
@@ -231,3 +248,19 @@ def gerar_relatorio_sprint(sprint):
 # ...no final do app.py, após todas as visualizações...
 if 'sprint' in locals() and sprint is not None:
     gerar_relatorio_sprint(sprint)
+
+# ...depois de carregar a sprint...
+if opcao != "Nova Sprint":
+    st.sidebar.markdown("---")
+    if st.sidebar.button("🔄 Sincronizar para Supabase"):
+        sprint = carregar_sprint(opcao)  # carrega do JSON local
+        salvar_sprint_db(sprint)         # salva no Supabase
+        st.sidebar.success("Sincronizado com Supabase!")
+    if st.sidebar.button("⬇️ Atualizar localmente do Supabase"):
+        sprint = carregar_sprint_db(opcao)  # carrega do Supabase
+        from storage.file_store import sprint_to_dict
+        with open(os.path.join(DATA_DIR, f"{opcao}.json"), "w", encoding="utf-8") as f:
+            import json
+            json.dump(sprint_to_dict(sprint), f, indent=2, default=str)
+        st.sidebar.success("Atualizado localmente com dados do Supabase!")
+        st.rerun()
