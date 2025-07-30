@@ -4,9 +4,9 @@
   "bloco_min": 30,
   "tarefas": [
     {
-      "nome": "Execute EDT",
-      "tempo_estimado": 13.0,
-      "tempo_gasto": 13.0,
+      "nome": "Execute EDT 2",
+      "tempo_estimado": 14.0,
+      "tempo_gasto": 14.0,
       "blocos_restantes": 0,
       "cor": "#1fb47a"
     },
@@ -18,10 +18,10 @@
       "cor": "#b4711f"
     },
     {
-      "nome": "CTFL",
-      "tempo_estimado": 5.0,
+      "nome": "CTFL 2",
+      "tempo_estimado": 6.0,
       "tempo_gasto": 0.0,
-      "blocos_restantes": 10,
+      "blocos_restantes": 12,
       "cor": "#e01667"
     },
     {
@@ -40,13 +40,13 @@
     },
     {
       "datetime": "2025-07-23 08:00",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute EDT 2"
     },
     {
       "datetime": "2025-07-23 08:30",
-      "status": "livre",
-      "tarefa": null
+      "status": "ocupado",
+      "tarefa": "Execute EDT 2"
     },
     {
       "datetime": "2025-07-23 09:00",
