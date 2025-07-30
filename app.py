@@ -93,41 +93,28 @@ if 'sprint' in locals():
         for tarefa in sprint.tarefas:
             col1, col2, col3, col4 = st.columns([3, 1, 1, 1])
             col1.markdown(f"**{tarefa.nome}** – ⏱️ {tarefa.tempo_gasto:.1f}h de {tarefa.tempo_estimado:.1f}h")
-            
-            # Botão Editar
+
+            # Botão Editar ativa o modo de edição
             if col2.button("✏️ Editar", key=f"edit_{tarefa.nome}"):
-                with st.form(f"edit_form_{tarefa.nome}"):
-                    novo_nome = st.text_input("Novo nome", value=tarefa.nome)
-                    novo_tempo = st.number_input("Novo tempo estimado (horas)", min_value=0.5, step=0.5, value=tarefa.tempo_estimado)
-                    nova_cor = st.color_picker("Nova cor", value=tarefa.cor)
-                    submit_edit = st.form_submit_button("Salvar alterações")
-                    if submit_edit:
-                        tarefa.nome = novo_nome
-                        tarefa.tempo_estimado = novo_tempo
-                        tarefa.cor = nova_cor
-                        salvar_sprint(sprint)
-                        st.success("Tarefa alterada com sucesso!")
-                        st.rerun()
-            
+                st.session_state.edit_task = tarefa.nome
+
             # Botão Apagar
             if col3.button("🗑️ Apagar", key=f"del_{tarefa.nome}"):
-                # Libera todos os slots ocupados por essa tarefa
                 for slot in sprint.slots:
                     if slot.tarefa == tarefa.nome:
                         slot.status = "livre"
                         slot.tarefa = None
-                # Remove a tarefa da lista
                 sprint.tarefas = [t for t in sprint.tarefas if t.nome != tarefa.nome]
                 salvar_sprint(sprint)
                 st.warning(f"Tarefa '{tarefa.nome}' apagada e slots liberados.")
                 st.rerun()
-            
+
+            # Alocação de slots (igual ao seu código)
             with col4:
                 if tarefa.blocos_restantes > 0:
                     slots_livres = sprint.get_slots_livres()
                     opcoes = [s.datetime.strftime("%Y-%m-%d %H:%M") for s in slots_livres]
                     selecionados = st.multiselect(f"Alocar blocos para '{tarefa.nome}'", opcoes, key=tarefa.nome)
-
                     if st.button(f"Confirmar alocação", key="btn_"+tarefa.nome):
                         for slot_str in selecionados:
                             dt_slot = datetime.strptime(slot_str, "%Y-%m-%d %H:%M")
@@ -136,6 +123,34 @@ if 'sprint' in locals():
                         st.rerun()
                 else:
                     st.markdown("✅ **Tarefa alocada por completo**")
+
+        # FORMULÁRIO DE EDIÇÃO FORA DO LOOP
+        if "edit_task" in st.session_state:
+            tarefa_edit = next((t for t in sprint.tarefas if t.nome == st.session_state.edit_task), None)
+            if tarefa_edit:
+                st.markdown("---")
+                st.subheader(f"✏️ Editando tarefa: {tarefa_edit.nome}")
+                with st.form(f"edit_form_{tarefa_edit.nome}"):
+                    novo_nome = st.text_input("Novo nome", value=tarefa_edit.nome)
+                    novo_tempo = st.number_input("Novo tempo estimado (horas)", min_value=0.5, step=0.5, value=tarefa_edit.tempo_estimado)
+                    nova_cor = st.color_picker("Nova cor", value=tarefa_edit.cor)
+                    submit_edit = st.form_submit_button("Salvar alterações")
+                    cancelar = st.form_submit_button("Cancelar")
+                    if submit_edit:
+                        tarefa_edit.nome = novo_nome
+                        tarefa_edit.tempo_estimado = novo_tempo
+                        tarefa_edit.cor = nova_cor
+                        # Atualize blocos_restantes se o tempo mudou
+                        tarefa_edit.blocos_restantes = int((novo_tempo * 60) / sprint.bloco_min) - int(tarefa_edit.tempo_gasto / (sprint.bloco_min / 60))
+                        if tarefa_edit.blocos_restantes < 0:
+                            tarefa_edit.blocos_restantes = 0
+                        salvar_sprint(sprint)
+                        st.success("Tarefa alterada com sucesso!")
+                        del st.session_state.edit_task
+                        st.rerun()
+                    if cancelar:
+                        del st.session_state.edit_task
+                        st.rerun()
 
         # ----------- VISÃO DOS SLOTS OCUPADOS -----------
         st.subheader("📆 Slots Alocados")
