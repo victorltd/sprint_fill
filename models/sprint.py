@@ -32,6 +32,7 @@ class Sprint:
         self.bloco_min = bloco_min
         self.slots = self._gerar_slots()
         self.tarefas = []
+        self.daily_reports = {}  # Novo campo: {dia: {tarefa_nome: texto}}
 
     def _gerar_slots(self):
         return [Slot(dt) for dt in gerar_slots_uteis(self.data_inicio, self.bloco_min)]
@@ -44,4 +45,4 @@ class Sprint:
 
     def get_slots_livres(self):
         return [slot for slot in self.slots if slot.status == "livre"]
-   
+

@@ -4,32 +4,116 @@
   "bloco_min": 30,
   "tarefas": [
     {
-      "nome": "Execute EDT 2",
-      "tempo_estimado": 14.0,
-      "tempo_gasto": 14.0,
-      "blocos_restantes": 0,
-      "cor": "#1fb47a"
-    },
-    {
       "nome": "Weekly Tasks",
-      "tempo_estimado": 10.0,
-      "tempo_gasto": 2.5,
-      "blocos_restantes": 15,
+      "tempo_estimado": 10,
+      "tempo_gasto": 1.5,
+      "blocos_restantes": 17,
       "cor": "#b4711f"
     },
     {
-      "nome": "CTFL 2",
-      "tempo_estimado": 6.0,
-      "tempo_gasto": 0.0,
-      "blocos_restantes": 12,
+      "nome": "CTFL",
+      "tempo_estimado": 5,
+      "tempo_gasto": 0,
+      "blocos_restantes": 10,
       "cor": "#e01667"
     },
     {
-      "nome": "Execute C220B",
-      "tempo_estimado": 4.0,
-      "tempo_gasto": 4.0,
+      "nome": "Weekly Tasks",
+      "tempo_estimado": 10,
+      "tempo_gasto": 9,
+      "blocos_restantes": 2,
+      "cor": "#b4711f"
+    },
+    {
+      "nome": "CTFL",
+      "tempo_estimado": 5,
+      "tempo_gasto": 1,
+      "blocos_restantes": 8,
+      "cor": "#e01667"
+    },
+    {
+      "nome": "Discuss EDT",
+      "tempo_estimado": 2,
+      "tempo_gasto": 1.5,
+      "blocos_restantes": 1,
+      "cor": "#18d669"
+    },
+    {
+      "nome": "Report EDT",
+      "tempo_estimado": 4,
+      "tempo_gasto": 4,
       "blocos_restantes": 0,
-      "cor": "#bbce12"
+      "cor": "#d67318"
+    },
+    {
+      "nome": "Perform C220B",
+      "tempo_estimado": 4,
+      "tempo_gasto": 4,
+      "blocos_restantes": -1,
+      "cor": "#37b41f"
+    },
+    {
+      "nome": "Investigate validation scope - CPM TCD2.0",
+      "tempo_estimado": 2,
+      "tempo_gasto": 1,
+      "blocos_restantes": 2,
+      "cor": "#b41f61"
+    },
+    {
+      "nome": "Study requirements - TCD 2.0 CPM",
+      "tempo_estimado": 4,
+      "tempo_gasto": 2,
+      "blocos_restantes": 4,
+      "cor": "#ea5d9b"
+    },
+    {
+      "nome": "Plan validations - TCD 2.0 CPM",
+      "tempo_estimado": 2,
+      "tempo_gasto": 2,
+      "blocos_restantes": 0,
+      "cor": "#ef9ec1"
+    },
+    {
+      "nome": "Report test results - TCD 2.0 CPM",
+      "tempo_estimado": 4,
+      "tempo_gasto": 1.5,
+      "blocos_restantes": 5,
+      "cor": "#33199e"
+    },
+    {
+      "nome": "[UN] Perform tests - 20832 ",
+      "tempo_estimado": 8,
+      "tempo_gasto": 8,
+      "blocos_restantes": 0,
+      "cor": "#e40b0b"
+    },
+    {
+      "nome": "[UN] Solve TCD 1.0 Connection Issues",
+      "tempo_estimado": 2,
+      "tempo_gasto": 2,
+      "blocos_restantes": 0,
+      "cor": "#ad0909"
+    },
+    {
+      "nome": "[UN] Perform tests - 20489 ",
+      "tempo_estimado": 5,
+      "tempo_gasto": 2,
+      "blocos_restantes": 6,
+      "cor": "#f74545"
+    },
+    {
+      "nome": "Perform C220A",
+      "tempo_estimado": 4,
+      "tempo_gasto": 3.5,
+      "blocos_restantes": 1,
+      "cor": "#3c1fb4"
+    },
+    {
+      "nome": "Report test results - TCD 2.0 NPI",
+      "tempo_estimado": 8,
+      "tempo_gasto": 1,
+      "blocos_restantes": 14,
+      "cor": "#034c71"
     }
   ],
   "slots": [
@@ -40,53 +124,53 @@
     },
     {
       "datetime": "2025-07-23 08:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT 2"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 08:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT 2"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 09:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 09:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 10:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 10:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 11:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 11:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 13:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 13:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 14:00",
@@ -97,6 +181,11 @@
       "datetime": "2025-07-23 14:30",
       "status": "ocupado",
       "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-08-01 09:30",
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-23 15:00",
@@ -125,103 +214,103 @@
     },
     {
       "datetime": "2025-07-24 07:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 08:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 08:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 09:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 09:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 10:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 10:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 11:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 11:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 13:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 13:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 14:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 14:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 15:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 15:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 16:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 16:30",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-24 17:00",
-      "status": "ocupado",
-      "tarefa": "Execute EDT"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 07:30",
-      "status": "ocupado",
-      "tarefa": "Weekly Tasks"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 08:00",
-      "status": "ocupado",
-      "tarefa": "Weekly Tasks"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 08:30",
@@ -255,43 +344,43 @@
     },
     {
       "datetime": "2025-07-25 11:30",
-      "status": "ocupado",
-      "tarefa": "Execute C220B"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 13:00",
-      "status": "ocupado",
-      "tarefa": "Execute C220B"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 13:30",
-      "status": "ocupado",
-      "tarefa": "Execute C220B"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 14:00",
-      "status": "ocupado",
-      "tarefa": "Execute C220B"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 14:30",
-      "status": "ocupado",
-      "tarefa": "Execute C220B"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 15:00",
-      "status": "ocupado",
-      "tarefa": "Execute C220B"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 15:30",
-      "status": "ocupado",
-      "tarefa": "Execute C220B"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-25 16:00",
-      "status": "ocupado",
-      "tarefa": "Execute C220B"
+      "status": "livre",
+      "tarefa": null
     },
     {
       "datetime": "2025-07-28 07:30",
@@ -674,11 +763,6 @@
       "tarefa": null
     },
     {
-      "datetime": "2025-08-01 09:30",
-      "status": "livre",
-      "tarefa": null
-    },
-    {
       "datetime": "2025-08-01 10:00",
       "status": "livre",
       "tarefa": null
@@ -897,6 +981,886 @@
       "datetime": "2025-08-05 15:30",
       "status": "livre",
       "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 07:30",
+      "status": "ocupado",
+      "tarefa": "Discuss EDT"
+    },
+    {
+      "datetime": "2025-07-23 08:00",
+      "status": "ocupado",
+      "tarefa": "Discuss EDT"
+    },
+    {
+      "datetime": "2025-07-23 08:30",
+      "status": "ocupado",
+      "tarefa": "Report EDT"
+    },
+    {
+      "datetime": "2025-07-23 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-23 14:00",
+      "status": "ocupado",
+      "tarefa": "Report EDT"
+    },
+    {
+      "datetime": "2025-07-23 14:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-23 15:00",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-23 15:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-23 16:00",
+      "status": "ocupado",
+      "tarefa": "Report EDT"
+    },
+    {
+      "datetime": "2025-07-23 16:30",
+      "status": "ocupado",
+      "tarefa": "Report EDT"
+    },
+    {
+      "datetime": "2025-07-23 17:00",
+      "status": "ocupado",
+      "tarefa": "Report EDT"
+    },
+    {
+      "datetime": "2025-07-24 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-24 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-25 07:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-25 08:00",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-25 08:30",
+      "status": "ocupado",
+      "tarefa": "Investigate validation scope - CPM TCD2.0"
+    },
+    {
+      "datetime": "2025-07-25 09:00",
+      "status": "ocupado",
+      "tarefa": "Investigate validation scope - CPM TCD2.0"
+    },
+    {
+      "datetime": "2025-07-25 09:30",
+      "status": "ocupado",
+      "tarefa": "Plan validations - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-25 10:00",
+      "status": "ocupado",
+      "tarefa": "Plan validations - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-25 10:30",
+      "status": "ocupado",
+      "tarefa": "Study requirements - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-25 11:00",
+      "status": "ocupado",
+      "tarefa": "Study requirements - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-25 11:30",
+      "status": "ocupado",
+      "tarefa": "Perform C220B"
+    },
+    {
+      "datetime": "2025-07-25 13:00",
+      "status": "ocupado",
+      "tarefa": "Perform C220B"
+    },
+    {
+      "datetime": "2025-07-25 13:30",
+      "status": "ocupado",
+      "tarefa": "Perform C220B"
+    },
+    {
+      "datetime": "2025-07-25 14:00",
+      "status": "ocupado",
+      "tarefa": "Perform C220B"
+    },
+    {
+      "datetime": "2025-07-25 14:30",
+      "status": "ocupado",
+      "tarefa": "Perform C220B"
+    },
+    {
+      "datetime": "2025-07-25 15:00",
+      "status": "ocupado",
+      "tarefa": "Perform C220B"
+    },
+    {
+      "datetime": "2025-07-25 15:30",
+      "status": "ocupado",
+      "tarefa": "Perform C220B"
+    },
+    {
+      "datetime": "2025-07-25 16:00",
+      "status": "ocupado",
+      "tarefa": "Perform C220B"
+    },
+    {
+      "datetime": "2025-07-28 07:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-28 08:00",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-28 08:30",
+      "status": "ocupado",
+      "tarefa": "CTFL"
+    },
+    {
+      "datetime": "2025-07-28 09:00",
+      "status": "ocupado",
+      "tarefa": "CTFL"
+    },
+    {
+      "datetime": "2025-07-28 09:30",
+      "status": "ocupado",
+      "tarefa": "Report test results - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-28 10:00",
+      "status": "ocupado",
+      "tarefa": "Report test results - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-28 10:30",
+      "status": "ocupado",
+      "tarefa": "Report test results - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-28 11:00",
+      "status": "ocupado",
+      "tarefa": "Plan validations - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-28 11:30",
+      "status": "ocupado",
+      "tarefa": "Plan validations - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-28 13:00",
+      "status": "ocupado",
+      "tarefa": "Study requirements - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-28 13:30",
+      "status": "ocupado",
+      "tarefa": "Study requirements - TCD 2.0 CPM"
+    },
+    {
+      "datetime": "2025-07-28 14:00",
+      "status": "ocupado",
+      "tarefa": "Report EDT"
+    },
+    {
+      "datetime": "2025-07-28 14:30",
+      "status": "ocupado",
+      "tarefa": "Report EDT"
+    },
+    {
+      "datetime": "2025-07-28 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-28 16:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Solve TCD 1.0 Connection Issues"
+    },
+    {
+      "datetime": "2025-07-28 16:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Solve TCD 1.0 Connection Issues"
+    },
+    {
+      "datetime": "2025-07-28 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 07:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-29 08:00",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-29 08:30",
+      "status": "ocupado",
+      "tarefa": "Discuss EDT"
+    },
+    {
+      "datetime": "2025-07-29 09:00",
+      "status": "ocupado",
+      "tarefa": "Report EDT"
+    },
+    {
+      "datetime": "2025-07-29 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-29 11:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Solve TCD 1.0 Connection Issues"
+    },
+    {
+      "datetime": "2025-07-29 11:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Solve TCD 1.0 Connection Issues"
+    },
+    {
+      "datetime": "2025-07-29 13:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-29 13:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-29 14:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-29 14:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-29 15:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20489 "
+    },
+    {
+      "datetime": "2025-07-29 15:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20489 "
+    },
+    {
+      "datetime": "2025-07-29 16:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20489 "
+    },
+    {
+      "datetime": "2025-07-29 16:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20489 "
+    },
+    {
+      "datetime": "2025-07-29 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 07:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-30 08:00",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-30 08:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-30 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 09:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-30 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-30 10:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 11:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 11:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 13:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 13:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 14:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 14:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 15:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 15:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 16:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 16:30",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-30 17:00",
+      "status": "ocupado",
+      "tarefa": "[UN] Perform tests - 20832 "
+    },
+    {
+      "datetime": "2025-07-31 07:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-07-31 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-07-31 13:00",
+      "status": "ocupado",
+      "tarefa": "Perform C220A"
+    },
+    {
+      "datetime": "2025-07-31 13:30",
+      "status": "ocupado",
+      "tarefa": "Perform C220A"
+    },
+    {
+      "datetime": "2025-07-31 14:00",
+      "status": "ocupado",
+      "tarefa": "Perform C220A"
+    },
+    {
+      "datetime": "2025-07-31 14:30",
+      "status": "ocupado",
+      "tarefa": "Perform C220A"
+    },
+    {
+      "datetime": "2025-07-31 15:00",
+      "status": "ocupado",
+      "tarefa": "Perform C220A"
+    },
+    {
+      "datetime": "2025-07-31 15:30",
+      "status": "ocupado",
+      "tarefa": "Perform C220A"
+    },
+    {
+      "datetime": "2025-07-31 16:00",
+      "status": "ocupado",
+      "tarefa": "Perform C220A"
+    },
+    {
+      "datetime": "2025-07-31 16:30",
+      "status": "ocupado",
+      "tarefa": "Report test results - TCD 2.0 NPI"
+    },
+    {
+      "datetime": "2025-07-31 17:00",
+      "status": "ocupado",
+      "tarefa": "Report test results - TCD 2.0 NPI"
+    },
+    {
+      "datetime": "2025-08-01 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-01 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 14:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 14:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 15:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 15:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 16:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 16:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-04 17:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 07:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 08:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 08:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 09:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 09:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 10:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 10:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 11:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 11:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 13:00",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 13:30",
+      "status": "livre",
+      "tarefa": null
+    },
+    {
+      "datetime": "2025-08-05 14:00",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-08-05 14:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-08-05 15:00",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
+    },
+    {
+      "datetime": "2025-08-05 15:30",
+      "status": "ocupado",
+      "tarefa": "Weekly Tasks"
     },
     {
       "datetime": "2025-08-05 16:00",

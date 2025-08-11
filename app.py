@@ -8,12 +8,14 @@ from storage.file_store import salvar_sprint, carregar_sprint
 from storage.db_store import salvar_sprint_db, carregar_sprint_db
 from core.auth import login, check_auth, get_current_user, logout
 import os
+from fpdf import FPDF
+import tempfile
 
 st.set_page_config(page_title="Sprint Scheduler", layout="wide")  # <-- PRIMEIRO comando Streamlit
 
 DATA_DIR = "data"
 
-
+'''
 # ----------- AUTENTICAÇÃO -----------
 if not check_auth():
     login()
@@ -23,7 +25,7 @@ user = get_current_user()
 st.sidebar.success(f"Logado como: {user.email}")
 if st.sidebar.button("🚪 Logout"):
     logout()
-
+'''
 
 # ----------- SESSÃO -----------
 #st.set_page_config(page_title="Sprint Scheduler", layout="wide")
@@ -197,7 +199,13 @@ if 'sprint' in locals():
 
         colunas[0].markdown("**Hora**")
         for i, dia in enumerate(dias_ordenados):
-            colunas[i+1].markdown(f"**{dia}**")
+            # Somatório de horas alocadas no dia
+            horas_alocadas = sum(
+                sprint.bloco_min / 60
+                for slot in slots_por_dia[dia]
+                if slot.status == "ocupado"
+            )
+            colunas[i+1].markdown(f"**{dia}**<br><span style='font-size:13px;color:#1f77b4'>Alocadas: <b>{horas_alocadas:.1f}h</b></span>", unsafe_allow_html=True)
 
         for hora in horas_padrao:
             colunas = st.columns([1] + [1]*len(dias_ordenados))
@@ -260,6 +268,39 @@ def gerar_relatorio_sprint(sprint):
             f"- **{t.nome}** | Estimado: `{t.tempo_estimado} h` | Gasto: `{t.tempo_gasto:.1f} h` | Restante: `{t.blocos_restantes * (sprint.bloco_min / 60):.1f} h`"
         )
 
+def gerar_pdf_sprint(sprint):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", "B", 16)
+    pdf.cell(0, 10, f"Relatório da Sprint: {sprint.id}", ln=True)
+    pdf.set_font("Arial", "", 12)
+    pdf.cell(0, 10, f"Data de início: {sprint.data_inicio.strftime('%Y-%m-%d')}", ln=True)
+    pdf.cell(0, 10, f"Duração do bloco: {sprint.bloco_min} min", ln=True)
+    pdf.cell(0, 10, f"Total de tarefas: {len(sprint.tarefas)}", ln=True)
+    pdf.ln(5)
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, "Tarefas:", ln=True)
+    pdf.set_font("Arial", "", 12)
+    for t in sprint.tarefas:
+        pdf.cell(0, 8, f"- {t.nome} | Estimado: {t.tempo_estimado}h | Gasto: {t.tempo_gasto:.1f}h | Restante: {t.blocos_restantes * (sprint.bloco_min / 60):.1f}h", ln=True)
+    pdf.ln(5)
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, "Slots ocupados:", ln=True)
+    pdf.set_font("Arial", "", 12)
+    for s in sprint.slots:
+        if s.status == "ocupado":
+            pdf.cell(0, 8, f"{s.datetime.strftime('%Y-%m-%d %H:%M')} -> {s.tarefa}", ln=True)
+    pdf.ln(5)
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, "Reports diários:", ln=True)
+    pdf.set_font("Arial", "", 12)
+    for dia, tarefas in sprint.daily_reports.items():
+        pdf.cell(0, 8, f"Dia: {dia}", ln=True)
+        for tarefa_nome, texto in tarefas.items():
+            pdf.multi_cell(0, 8, f"  {tarefa_nome}: {texto}")
+        pdf.ln(2)
+    return pdf
+
 # ...no final do app.py, após todas as visualizações...
 if 'sprint' in locals() and sprint is not None:
     gerar_relatorio_sprint(sprint)
@@ -279,3 +320,56 @@ if opcao != "Nova Sprint":
             json.dump(sprint_to_dict(sprint), f, indent=2, default=str)
         st.sidebar.success("Atualizado localmente com dados do Supabase!")
         st.rerun()
+
+    if st.button("📄 Baixar relatório em PDF"):
+        pdf = gerar_pdf_sprint(sprint)
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmpfile:
+            pdf.output(tmpfile.name)
+            with open(tmpfile.name, "rb") as f:
+                st.download_button(
+                    label="Clique aqui para baixar o PDF",
+                    data=f.read(),
+                    file_name=f"relatorio_{sprint.id}.pdf",
+                    mime="application/pdf"
+                )
+
+if 'sprint' in locals() and sprint is not None:
+    st.markdown("---")
+    st.header("📝 Report Diário da Sprint")
+
+    dias_ordenados = sorted(set(slot.datetime.strftime("%Y-%m-%d") for slot in sprint.slots))
+    dia_selecionado = st.selectbox("Selecione o dia para reportar", dias_ordenados)
+
+    # Inicializa o dict se não existir
+    if not hasattr(sprint, "daily_reports"):
+        sprint.daily_reports = {}
+
+    if dia_selecionado not in sprint.daily_reports:
+        sprint.daily_reports[dia_selecionado] = {}
+
+    st.subheader(f"Report do dia {dia_selecionado}")
+
+    # Filtra tarefas alocadas para o dia selecionado
+    tarefas_alocadas = set(
+        slot.tarefa for slot in sprint.slots
+        if slot.status == "ocupado" and slot.datetime.strftime("%Y-%m-%d") == dia_selecionado
+    )
+    tarefas_alocadas = [t for t in sprint.tarefas if t.nome in tarefas_alocadas]
+
+    if not tarefas_alocadas:
+        st.info("Nenhuma tarefa alocada para este dia.")
+    else:
+        for tarefa in tarefas_alocadas:
+            texto = sprint.daily_reports[dia_selecionado].get(tarefa.nome, "")
+            with st.expander(f"Tarefa: {tarefa.nome}"):
+                novo_texto = st.text_area(f"Observações para '{tarefa.nome}'", value=texto, key=f"report_{dia_selecionado}_{tarefa.nome}")
+                col1, col2 = st.columns([1,1])
+                if col1.button("Salvar", key=f"save_{dia_selecionado}_{tarefa.nome}"):
+                    sprint.daily_reports[dia_selecionado][tarefa.nome] = novo_texto
+                    salvar_sprint(sprint)
+                    st.success("Report salvo!")
+                if col2.button("Excluir", key=f"del_{dia_selecionado}_{tarefa.nome}"):
+                    sprint.daily_reports[dia_selecionado].pop(tarefa.nome, None)
+                    salvar_sprint(sprint)
+                    st.warning("Report excluído!")
+                    st.rerun()
