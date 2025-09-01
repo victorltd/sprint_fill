@@ -269,36 +269,129 @@ def gerar_relatorio_sprint(sprint):
         )
 
 def gerar_pdf_sprint(sprint):
+    from collections import defaultdict
+
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", "B", 16)
-    pdf.cell(0, 10, f"Relatório da Sprint: {sprint.id}", ln=True)
+    # Logo (opcional)
+    # pdf.image("logo.png", x=10, y=8, w=33)
+    pdf.set_font("Arial", "B", 18)
+    pdf.set_text_color(30, 77, 147)
+    pdf.cell(0, 12, f"Relatório da Sprint: {sprint.id}", ln=True, align="C")
+    pdf.set_draw_color(30, 77, 147)
+    pdf.set_line_width(0.8)
+    pdf.line(10, pdf.get_y(), 200, pdf.get_y())
+    pdf.ln(4)
+
     pdf.set_font("Arial", "", 12)
-    pdf.cell(0, 10, f"Data de início: {sprint.data_inicio.strftime('%Y-%m-%d')}", ln=True)
-    pdf.cell(0, 10, f"Duração do bloco: {sprint.bloco_min} min", ln=True)
-    pdf.cell(0, 10, f"Total de tarefas: {len(sprint.tarefas)}", ln=True)
-    pdf.ln(5)
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(0, 10, "Tarefas:", ln=True)
+    pdf.set_text_color(0, 0, 0)
+    pdf.cell(0, 8, f"Data de início: {sprint.data_inicio.strftime('%Y-%m-%d')}", ln=True)
+    pdf.cell(0, 8, f"Duração do bloco: {sprint.bloco_min} min", ln=True)
+    pdf.cell(0, 8, f"Total de tarefas: {len(sprint.tarefas)}", ln=True)
+    pdf.ln(4)
+
+    # Tarefas
+    pdf.set_font("Arial", "B", 14)
+    pdf.set_fill_color(220, 230, 241)
+    pdf.cell(0, 10, "Tarefas", ln=True, fill=True)
     pdf.set_font("Arial", "", 12)
     for t in sprint.tarefas:
         pdf.cell(0, 8, f"- {t.nome} | Estimado: {t.tempo_estimado}h | Gasto: {t.tempo_gasto:.1f}h | Restante: {t.blocos_restantes * (sprint.bloco_min / 60):.1f}h", ln=True)
-    pdf.ln(5)
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(0, 10, "Slots ocupados:", ln=True)
+    pdf.ln(2)
+
+    # Slots ocupados
+    pdf.set_font("Arial", "B", 14)
+    pdf.set_fill_color(220, 241, 220)
+    pdf.cell(0, 10, "Slots Ocupados", ln=True, fill=True)
     pdf.set_font("Arial", "", 12)
     for s in sprint.slots:
         if s.status == "ocupado":
             pdf.cell(0, 8, f"{s.datetime.strftime('%Y-%m-%d %H:%M')} -> {s.tarefa}", ln=True)
-    pdf.ln(5)
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(0, 10, "Reports diários:", ln=True)
+    pdf.ln(2)
+
+    # Reports diários
+    pdf.set_font("Arial", "B", 14)
+    pdf.set_fill_color(241, 241, 220)
+    pdf.cell(0, 10, "Reports Diários", ln=True, fill=True)
     pdf.set_font("Arial", "", 12)
     for dia, tarefas in sprint.daily_reports.items():
+        pdf.set_font("Arial", "B", 12)
         pdf.cell(0, 8, f"Dia: {dia}", ln=True)
+        pdf.set_font("Arial", "", 12)
         for tarefa_nome, texto in tarefas.items():
             pdf.multi_cell(0, 8, f"  {tarefa_nome}: {texto}")
-        pdf.ln(2)
+        pdf.ln(1)
+    pdf.ln(2)
+
+    # Resumo diário de tarefas realizadas
+    pdf.set_font("Arial", "B", 14)
+    pdf.set_fill_color(230, 220, 241)
+    pdf.cell(0, 10, "Resumo Diário de Tarefas Realizadas", ln=True, fill=True)
+    pdf.set_font("Arial", "", 12)
+    from collections import defaultdict
+    slots_por_dia = defaultdict(list)
+    for slot in sprint.slots:
+        if slot.status == "ocupado":
+            dia = slot.datetime.strftime("%Y-%m-%d")
+            slots_por_dia[dia].append(slot)
+    for dia in sorted(slots_por_dia.keys()):
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(0, 8, f"Dia: {dia}", ln=True)
+        pdf.set_font("Arial", "", 12)
+        blocos_por_tarefa = defaultdict(int)
+        for slot in slots_por_dia[dia]:
+            blocos_por_tarefa[slot.tarefa] += 1
+        for tarefa_nome, blocos in blocos_por_tarefa.items():
+            horas = blocos * (sprint.bloco_min / 60)
+            pdf.cell(0, 8, f"  {tarefa_nome}: {blocos} blocos ({horas:.2f}h)", ln=True)
+        pdf.ln(1)
+
+    # --- Visualização estilo calendário (blocos por dia/horário) ---
+    from collections import defaultdict
+    slots_por_dia = defaultdict(list)
+    for slot in sprint.slots:
+        dia = slot.datetime.strftime("%Y-%m-%d")
+        slots_por_dia[dia].append(slot)
+
+    dias_ordenados = sorted(slots_por_dia.keys())
+    horas_padrao = [f"{h:02d}:{m:02d}" for h in range(7, 18) for m in (30, 0)]  # 7:30 até 17:30
+
+    # Divide os dias em blocos de 5
+    blocos_dias = [dias_ordenados[i:i+5] for i in range(0, len(dias_ordenados), 5)]
+
+    for idx, dias_bloco in enumerate(blocos_dias):
+        if idx > 0:
+            pdf.add_page()
+        pdf.set_font("Arial", "B", 13)
+        pdf.set_fill_color(220, 230, 241)
+        pdf.cell(0, 10, f"Calendário de Blocos ({idx*5+1} a {idx*5+len(dias_bloco)})", ln=True, fill=True)
+        pdf.set_font("Arial", "", 9)
+
+        # Cabeçalho da tabela
+        pdf.set_fill_color(200, 200, 220)
+        pdf.cell(20, 8, "Hora", 1, 0, "C", 1)
+        for dia in dias_bloco:
+            pdf.cell(30, 8, dia, 1, 0, "C", 1)
+        pdf.ln()
+
+        # Corpo da tabela
+        for hora in horas_padrao:
+            pdf.set_fill_color(230, 230, 230)
+            pdf.cell(20, 8, hora, 1, 0, "C", 1)
+            for dia in dias_bloco:
+                slot_match = next((s for s in slots_por_dia[dia] if s.datetime.strftime("%H:%M") == hora), None)
+                if slot_match:
+                    if slot_match.status == "ocupado":
+                        tarefa_nome = slot_match.tarefa[:12]
+                        pdf.set_fill_color(100, 180, 100)
+                        pdf.cell(30, 8, tarefa_nome, 1, 0, "C", 1)
+                    else:
+                        pdf.set_fill_color(240, 240, 240)
+                        pdf.cell(30, 8, "Livre", 1, 0, "C", 1)
+                else:
+                    pdf.cell(30, 8, "-", 1, 0, "C")
+            pdf.ln()
+
     return pdf
 
 # ...no final do app.py, após todas as visualizações...
@@ -373,3 +466,22 @@ if 'sprint' in locals() and sprint is not None:
                     salvar_sprint(sprint)
                     st.warning("Report excluído!")
                     st.rerun()
+
+if 'sprint' in locals() and sprint is not None:
+    st.markdown("### 📅 Resumo diário de tarefas realizadas")
+    from collections import defaultdict
+    slots_por_dia = defaultdict(list)
+    for slot in sprint.slots:
+        if slot.status == "ocupado":
+            dia = slot.datetime.strftime("%Y-%m-%d")
+            slots_por_dia[dia].append(slot)
+
+    for dia in sorted(slots_por_dia.keys()):
+        st.markdown(f"**Dia: {dia}**")
+        blocos_por_tarefa = defaultdict(int)
+        for slot in slots_por_dia[dia]:
+            blocos_por_tarefa[slot.tarefa] += 1
+        for tarefa_nome, blocos in blocos_por_tarefa.items():
+            horas = blocos * (sprint.bloco_min / 60)
+            st.markdown(f"- {tarefa_nome}: {blocos} blocos ({horas:.2f}h)")
+        st.markdown("---")
