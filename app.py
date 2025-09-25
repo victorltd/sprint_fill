@@ -15,17 +15,17 @@ st.set_page_config(page_title="Sprint Scheduler", layout="wide")  # <-- PRIMEIRO
 
 DATA_DIR = "data"
 
-'''
-# ----------- AUTENTICAÇÃO -----------
-if not check_auth():
-    login()
-    st.stop()
 
-user = get_current_user()
-st.sidebar.success(f"Logado como: {user.email}")
-if st.sidebar.button("🚪 Logout"):
-    logout()
-'''
+# # ----------- AUTENTICAÇÃO -----------
+# if not check_auth():
+#     login()
+#     st.stop()
+
+# user = get_current_user()
+# st.sidebar.success(f"Logado como: {user.email}")
+# if st.sidebar.button("🚪 Logout"):
+#     logout()
+
 
 # ----------- SESSÃO -----------
 #st.set_page_config(page_title="Sprint Scheduler", layout="wide")
@@ -51,19 +51,192 @@ if opcao != "Nova Sprint":
             st.sidebar.error("Arquivo da sprint não encontrado.")
 
 if opcao == "Nova Sprint":
-    with st.sidebar.form("nova_sprint_form"):
-        data_inicio = st.date_input("Data de início", value=datetime.today())
-        bloco_min = st.number_input("Duração do bloco (min)", min_value=15, max_value=120, value=30, step=15)
-        sprint_id = f"sprint_{data_inicio.strftime('%Y-%m-%d')}"
-        criar_btn = st.form_submit_button("Criar Sprint")
-        if criar_btn:
-            sprint = Sprint(sprint_id, datetime.combine(data_inicio, datetime.min.time()), bloco_min)
-            salvar_sprint(sprint)
-            st.success(f"Sprint {sprint_id} criada. Recarregue a página para começar.")
-            st.rerun()
+    # --- Integração com PI Planning ---
+    # Carrega os PIs e tasks do PI
+    import json
+    PI_DATA_PATH = "pages\pi_data.json"    
+    if os.path.exists(PI_DATA_PATH):        
+        with open(PI_DATA_PATH, "r", encoding="utf-8") as f:            
+            try:                
+                pi_data = json.load(f)            
+            except Exception:                
+                pi_data = {"pis": []}    
+    else:        
+        pi_data = {"pis": []}    
+
+    if not pi_data["pis"]:
+        st.sidebar.info("Nenhum PI cadastrado. Cadastre um PI na página de PI Planning.")
+    else:
+        pi_options = [f"{pi['nome']} ({pi['id']})" for pi in pi_data["pis"]]
+        with st.sidebar.form("nova_sprint_form_sidebar"):
+            data_inicio = st.date_input("Data de início", value=datetime.today())
+            bloco_min = st.number_input("Duração do bloco (min)", min_value=15, max_value=120, value=30, step=15)
+            sprint_id = f"sprint_{data_inicio.strftime('%Y-%m-%d')}"
+            pi_idx = st.selectbox("Selecionar PI para importar tasks", ["Nenhum"] + pi_options)
+            st.form_submit_button("Avançar")
+
+        # Exibe a tabela de seleção de tasks na tela principal
+        if pi_idx != "Nenhum":
+            pi_index = pi_options.index(pi_idx)
+            pi_sel = pi_data["pis"][pi_index]
+            pi_tasks = []
+            for epic in pi_sel["epics"]:
+                for feat in epic["features"]:
+                    for t in feat["tasks"]:
+                        pi_tasks.append({
+                            "nome": t["nome"],
+                            "estimativa": t.get("estimativa_horas", 1.0),
+                            "cor": "#1f77b4",
+                            "epic": epic["nome"],
+                            "feature": feat["nome"]
+                        })
+            if pi_tasks:
+                st.markdown("### Seleção de Tasks do PI")
+                import pandas as pd
+                import io
+                import csv
+                # Inicializa tabela editável na sessão
+                if "pi_task_table" not in st.session_state:
+                    st.session_state.pi_task_table = pd.DataFrame([
+                        {"Task": t["nome"], "Feature": t["feature"], "Epic": t["epic"], "Horas": float(t["estimativa"]), "Selecionar": False}
+                        for t in pi_tasks
+                    ])
+                # Renderiza tabela editável com st.data_editor
+                edited_df = st.data_editor(
+                    st.session_state.pi_task_table,
+                    column_config={
+                        "Task": "Task",
+                        "Feature": "Feature",
+                        "Epic": "Epic",
+                        "Horas": st.column_config.NumberColumn("Horas", min_value=0.5, step=0.5, format="%.2f"),
+                        "Selecionar": st.column_config.CheckboxColumn("Selecionar")
+                    },
+                    hide_index=True,
+                    use_container_width=True,
+                    key="pi_task_table_editor"
+                )
+                # Soma instantânea
+                soma_horas = edited_df.loc[edited_df["Selecionar"], "Horas"].sum()
+                st.markdown(f"<div style='background:#e3f2fd;padding:10px 20px;border-radius:8px;font-size:20px;font-weight:bold;color:#1565c0;margin-bottom:10px'>Total de horas das tasks selecionadas: {soma_horas:.2f}h</div>", unsafe_allow_html=True)
+
+                # Botão para exportar CSV Azure DevOps
+                selected_tasks = edited_df[edited_df["Selecionar"]]
+                if not selected_tasks.empty:
+                    csv_buffer = io.StringIO()
+                    writer = csv.writer(csv_buffer)
+                    writer.writerow([
+                        "Work Item Type", "Title", "Feature", "Epic", "Estimated Hours", "State", "Priority", "Tags"
+                    ])
+                    for _, row in selected_tasks.iterrows():
+                        writer.writerow([
+                            "Task",
+                            row["Task"],
+                            row["Feature"],
+                            row["Epic"],
+                            row["Horas"],
+                            "To Do",
+                            2,
+                            ""
+                        ])
+                    st.download_button(
+                        label="Exportar tasks para Azure DevOps (CSV)",
+                        data=csv_buffer.getvalue().encode("utf-8"),
+                        file_name=f"tasks_sprint_{sprint_id}.csv",
+                        mime="text/csv"
+                    )
+
+                # Botão para criar sprint
+                if st.button("Criar Sprint com tasks selecionadas"):
+                    sprint = Sprint(sprint_id, datetime.combine(data_inicio, datetime.min.time()), bloco_min)
+                    for _, t in edited_df.iterrows():
+                        if t["Selecionar"]:
+                            criar_tarefa(sprint, t["Task"], t["Horas"], "#1f77b4")
+                    salvar_sprint(sprint)
+                    st.success(f"Sprint {sprint_id} criada. Recarregue a página para começar.")
+                    del st.session_state.pi_task_table
+                    st.rerun()
+                # Atualiza sessão para manter edição
+                st.session_state.pi_task_table = edited_df.copy()
+            else:
+                st.info("Nenhuma task cadastrada neste PI.")
 else:
     sprint = carregar_sprint(opcao)
     st.sidebar.success(f"Sprint carregada: {sprint.id}")
+
+    # --- Importar tasks do PI após criar sprint ---
+    if st.sidebar.button("Importar tasks do PI nesta Sprint"):
+        st.session_state.show_import_pi_tasks = True
+
+    if st.session_state.get("show_import_pi_tasks"):
+        st.markdown("### Importar tasks do PI para esta Sprint")
+        import json
+        PI_DATA_PATH = "pages\pi_data.json"
+        if os.path.exists(PI_DATA_PATH):
+            with open(PI_DATA_PATH, "r", encoding="utf-8") as f:
+                try:
+                    pi_data = json.load(f)
+                except Exception:
+                    pi_data = {"pis": []}
+        else:
+            pi_data = {"pis": []}
+
+        if not pi_data["pis"]:
+            st.info("Nenhum PI cadastrado. Cadastre um PI na página de PI Planning.")
+        else:
+            pi_options = [f"{pi['nome']} ({pi['id']})" for pi in pi_data["pis"]]
+            pi_idx = st.selectbox("Selecionar PI para importar tasks", ["Nenhum"] + pi_options, key="import_pi_select")
+            if pi_idx != "Nenhum":
+                pi_index = pi_options.index(pi_idx)
+                pi_sel = pi_data["pis"][pi_index]
+                # Tasks já existentes na sprint
+                nomes_existentes = set(t.nome for t in sprint.tarefas)
+                pi_tasks = []
+                for epic in pi_sel["epics"]:
+                    for feat in epic["features"]:
+                        for t in feat["tasks"]:
+                            if t["nome"] not in nomes_existentes:
+                                pi_tasks.append({
+                                    "nome": t["nome"],
+                                    "estimativa": t.get("estimativa_horas", 1.0),
+                                    "cor": "#1f77b4",
+                                    "epic": epic["nome"],
+                                    "feature": feat["nome"]
+                                })
+                if pi_tasks:
+                    import pandas as pd
+                    if "import_pi_task_table" not in st.session_state:
+                        st.session_state.import_pi_task_table = pd.DataFrame([
+                            {"Task": t["nome"], "Feature": t["feature"], "Horas": float(t["estimativa"]), "Selecionar": False}
+                            for t in pi_tasks
+                        ])
+                    edited_df = st.data_editor(
+                        st.session_state.import_pi_task_table,
+                        column_config={
+                            "Task": "Task",
+                            "Feature": "Feature",
+                            "Horas": st.column_config.NumberColumn("Horas", min_value=0.5, step=0.5, format="%.2f"),
+                            "Selecionar": st.column_config.CheckboxColumn("Selecionar")
+                        },
+                        hide_index=True,
+                        use_container_width=True,
+                        key="import_pi_task_table_editor"
+                    )
+                    soma_horas = edited_df.loc[edited_df["Selecionar"], "Horas"].sum()
+                    st.markdown(f"<div style='background:#e3f2fd;padding:10px 20px;border-radius:8px;font-size:20px;font-weight:bold;color:#1565c0;margin-bottom:10px'>Total de horas das tasks selecionadas: {soma_horas:.2f}h</div>", unsafe_allow_html=True)
+                    if st.button("Importar tasks selecionadas nesta Sprint"):
+                        for _, t in edited_df.iterrows():
+                            if t["Selecionar"]:
+                                criar_tarefa(sprint, t["Task"], t["Horas"], "#1f77b4")
+                        salvar_sprint(sprint)
+                        st.success("Tasks importadas para a sprint!")
+                        del st.session_state.import_pi_task_table
+                        st.session_state.show_import_pi_tasks = False
+                        st.rerun()
+                    st.session_state.import_pi_task_table = edited_df.copy()
+                else:
+                    st.info("Nenhuma task disponível para importar deste PI.")
+            if st.button("Cancelar importação de tasks do PI"):
+                st.session_state.show_import_pi_tasks = False
 
 # ----------- CADASTRO DE TAREFA -----------
 st.subheader("➕ Nova Tarefa")
@@ -79,6 +252,35 @@ with st.form("form_tarefa"):
 
 # Só mostra o formulário de adicionar tarefa se a sprint existir
 if 'sprint' in locals() and sprint is not None:
+    # Exportar todas as tasks da sprint para Azure DevOps CSV
+    import io
+    import csv
+    if sprint.tarefas:
+        csv_buffer = io.StringIO()
+        writer = csv.writer(csv_buffer)
+        writer.writerow([
+            "Work Item Type", "Title", "Feature", "Epic", "Estimated Hours", "State", "Priority", "Tags"
+        ])
+        for t in sprint.tarefas:
+            # Tenta buscar feature/epic se existirem como atributos, senão deixa vazio
+            feature = getattr(t, 'feature', getattr(t, 'Feature', '')) if hasattr(t, 'feature') or hasattr(t, 'Feature') else ''
+            epic = getattr(t, 'epic', getattr(t, 'Epic', '')) if hasattr(t, 'epic') or hasattr(t, 'Epic') else ''
+            writer.writerow([
+                "Task",
+                t.nome,
+                feature,
+                epic,
+                getattr(t, 'tempo_estimado', ''),
+                "To Do",
+                2,
+                ""
+            ])
+        st.download_button(
+            label="Exportar todas as tasks da Sprint (CSV Azure DevOps)",
+            data=csv_buffer.getvalue().encode("utf-8"),
+            file_name=f"tasks_{sprint.id}.csv",
+            mime="text/csv"
+        )
     # Código para mostrar o formulário de adicionar tarefa
     # Exemplo:
     # mostrar_formulario_adicionar_tarefa()
@@ -87,98 +289,98 @@ if 'sprint' in locals() and sprint is not None:
 
 # ----------- LISTAGEM DE TAREFAS E SLOTS LIVRES -----------
 if 'sprint' in locals():
-    st.subheader("📋 Tarefas e Alocação")
+    st.subheader("📋 Tarefas cadastradas e alocação")
 
-    if len(sprint.tarefas) == 0:
-        st.info("Nenhuma tarefa cadastrada ainda.")
-    else:
-        for tarefa in sprint.tarefas:
-            col1, col2, col3, col4 = st.columns([3, 1, 1, 1])
-            col1.markdown(f"**{tarefa.nome}** – ⏱️ {tarefa.tempo_gasto:.1f}h de {tarefa.tempo_estimado:.1f}h")
+    with st.expander("📋 Tarefas cadastradas e alocação"):
+        if len(sprint.tarefas) == 0:
+            st.info("Nenhuma tarefa cadastrada ainda.")
+        else:
+            for tarefa in sprint.tarefas:
+                col1, col2, col3, col4 = st.columns([3, 1, 1, 1])
+                col1.markdown(f"**{tarefa.nome}** – ⏱️ {tarefa.tempo_gasto:.1f}h de {tarefa.tempo_estimado:.1f}h")
 
-            # Botão Editar ativa o modo de edição
-            if col2.button("✏️ Editar", key=f"edit_{tarefa.nome}"):
-                st.session_state.edit_task = tarefa.nome
+                # Botão Editar ativa o modo de edição
+                if col2.button("✏️ Editar", key=f"edit_{tarefa.nome}"):
+                    st.session_state.edit_task = tarefa.nome
 
-            # Botão Apagar
-            if col3.button("🗑️ Apagar", key=f"del_{tarefa.nome}"):
-                for slot in sprint.slots:
-                    if slot.tarefa == tarefa.nome:
-                        slot.status = "livre"
-                        slot.tarefa = None
-                sprint.tarefas = [t for t in sprint.tarefas if t.nome != tarefa.nome]
-                salvar_sprint(sprint)
-                st.warning(f"Tarefa '{tarefa.nome}' apagada e slots liberados.")
-                st.rerun()
-
-            # Alocação de slots (igual ao seu código)
-            with col4:
-                if tarefa.blocos_restantes > 0:
-                    slots_livres = sprint.get_slots_livres()
-                    opcoes = [s.datetime.strftime("%Y-%m-%d %H:%M") for s in slots_livres]
-                    selecionados = st.multiselect(f"Alocar blocos para '{tarefa.nome}'", opcoes, key=tarefa.nome)
-                    if st.button(f"Confirmar alocação", key="btn_"+tarefa.nome):
-                        for slot_str in selecionados:
-                            dt_slot = datetime.strptime(slot_str, "%Y-%m-%d %H:%M")
-                            alocar_slot_manual(sprint, tarefa.nome, dt_slot)
-                        salvar_sprint(sprint)
-                        st.rerun()
-                else:
-                    st.markdown("✅ **Tarefa alocada por completo**")
-
-        # FORMULÁRIO DE EDIÇÃO FORA DO LOOP
-        if "edit_task" in st.session_state:
-            tarefa_edit = next((t for t in sprint.tarefas if t.nome == st.session_state.edit_task), None)
-            if tarefa_edit:
-                st.markdown("---")
-                st.subheader(f"✏️ Editando tarefa: {tarefa_edit.nome}")
-                with st.form(f"edit_form_{tarefa_edit.nome}"):
-                    novo_nome = st.text_input("Novo nome", value=tarefa_edit.nome)
-                    novo_tempo = st.number_input("Novo tempo estimado (horas)", min_value=0.5, step=0.5, value=tarefa_edit.tempo_estimado)
-                    nova_cor = st.color_picker("Nova cor", value=tarefa_edit.cor)
-                    submit_edit = st.form_submit_button("Salvar alterações")
-                    cancelar = st.form_submit_button("Cancelar")
-                    if submit_edit:
-                        tarefa_edit.nome = novo_nome
-                        tarefa_edit.tempo_estimado = novo_tempo
-                        tarefa_edit.cor = nova_cor
-                        # Atualize blocos_restantes se o tempo mudou
-                        tarefa_edit.blocos_restantes = int((novo_tempo * 60) / sprint.bloco_min) - int(tarefa_edit.tempo_gasto / (sprint.bloco_min / 60))
-                        if tarefa_edit.blocos_restantes < 0:
-                            tarefa_edit.blocos_restantes = 0
-                        salvar_sprint(sprint)
-                        st.success("Tarefa alterada com sucesso!")
-                        del st.session_state.edit_task
-                        st.rerun()
-                    if cancelar:
-                        del st.session_state.edit_task
-                        st.rerun()
-
-        # ----------- VISÃO DOS SLOTS OCUPADOS -----------
-        st.subheader("📆 Slots Alocados")
-        ocupados = [s for s in sprint.slots if s.status == "ocupado"]
-        livres = [s for s in sprint.slots if s.status == "livre"]
-
-        st.markdown(f"**Total de slots ocupados:** {len(ocupados)}")
-        st.markdown(f"**Slots livres restantes:** {len(livres)}")
-
-        with st.expander("Ver todos os slots ocupados"):
-            for slot in ocupados:
-                col1, col2 = st.columns([4, 1])
-                col1.write(f"{slot.datetime.strftime('%Y-%m-%d %H:%M')} → {slot.tarefa}")
-                if col2.button("🗑️ Remover", key=f"del_slot_{slot.datetime}"):
-                    # Encontra a tarefa associada ao slot
-                    tarefa = next((t for t in sprint.tarefas if t.nome == slot.tarefa), None)
-                    if tarefa:
-                        tarefa.tempo_gasto = max(0, tarefa.tempo_gasto - (sprint.bloco_min / 60))
-                    slot.status = "livre"
-                    slot.tarefa = None
+                # Botão Apagar
+                if col3.button("🗑️ Apagar", key=f"del_{tarefa.nome}"):
+                    for slot in sprint.slots:
+                        if slot.tarefa == tarefa.nome:
+                            slot.status = "livre"
+                            slot.tarefa = None
+                    sprint.tarefas = [t for t in sprint.tarefas if t.nome != tarefa.nome]
                     salvar_sprint(sprint)
-                    st.success("Slot desalocado!")
+                    st.warning(f"Tarefa '{tarefa.nome}' apagada e slots liberados.")
                     st.rerun()
-        with st.expander("Ver todos os slots livres"):
-            for slot in livres:
-                st.write(slot.datetime.strftime('%Y-%m-%d %H:%M'))
+
+                # Alocação de slots (igual ao seu código)
+                with col4:
+                    if tarefa.blocos_restantes > 0:
+                        slots_livres = sprint.get_slots_livres()
+                        opcoes = [s.datetime.strftime("%Y-%m-%d %H:%M") for s in slots_livres]
+                        selecionados = st.multiselect(f"Alocar blocos para '{tarefa.nome}'", opcoes, key=tarefa.nome)
+                        if st.button(f"Confirmar alocação", key="btn_"+tarefa.nome):
+                            for slot_str in selecionados:
+                                dt_slot = datetime.strptime(slot_str, "%Y-%m-%d %H:%M")
+                                alocar_slot_manual(sprint, tarefa.nome, dt_slot)
+                            salvar_sprint(sprint)
+                            st.rerun()
+                    else:
+                        st.markdown("✅ **Tarefa alocada por completo**")
+
+            # FORMULÁRIO DE EDIÇÃO FORA DO LOOP
+            if "edit_task" in st.session_state:
+                tarefa_edit = next((t for t in sprint.tarefas if t.nome == st.session_state.edit_task), None)
+                if tarefa_edit:
+                    st.markdown("---")
+                    st.subheader(f"✏️ Editando tarefa: {tarefa_edit.nome}")
+                    with st.form(f"edit_form_{tarefa_edit.nome}"):
+                        novo_nome = st.text_input("Novo nome", value=tarefa_edit.nome)
+                        novo_tempo = st.number_input("Novo tempo estimado (horas)", min_value=0.5, step=0.5, value=tarefa_edit.tempo_estimado)
+                        nova_cor = st.color_picker("Nova cor", value=tarefa_edit.cor)
+                        submit_edit = st.form_submit_button("Salvar alterações")
+                        cancelar = st.form_submit_button("Cancelar")
+                        if submit_edit:
+                            tarefa_edit.nome = novo_nome
+                            tarefa_edit.tempo_estimado = novo_tempo
+                            tarefa_edit.cor = nova_cor
+                            tarefa_edit.blocos_restantes = int((novo_tempo * 60) / sprint.bloco_min) - int(tarefa_edit.tempo_gasto / (sprint.bloco_min / 60))
+                            if tarefa_edit.blocos_restantes < 0:
+                                tarefa_edit.blocos_restantes = 0
+                            salvar_sprint(sprint)
+                            st.success("Tarefa alterada com sucesso!")
+                            del st.session_state.edit_task
+                            st.rerun()
+                        if cancelar:
+                            del st.session_state.edit_task
+                            st.rerun()
+
+    # ----------- VISÃO DOS SLOTS OCUPADOS -----------
+    st.subheader("📆 Slots Alocados")
+    ocupados = [s for s in sprint.slots if s.status == "ocupado"]
+    livres = [s for s in sprint.slots if s.status == "livre"]
+
+    st.markdown(f"**Total de slots ocupados:** {len(ocupados)}")
+    st.markdown(f"**Slots livres restantes:** {len(livres)}")
+
+    with st.expander("Ver todos os slots ocupados"):
+        for slot in ocupados:
+            col1, col2 = st.columns([4, 1])
+            col1.write(f"{slot.datetime.strftime('%Y-%m-%d %H:%M')} → {slot.tarefa}")
+            if col2.button("🗑️ Remover", key=f"del_slot_{slot.datetime}"):
+                # Encontra a tarefa associada ao slot
+                tarefa = next((t for t in sprint.tarefas if t.nome == slot.tarefa), None)
+                if tarefa:
+                    tarefa.tempo_gasto = max(0, tarefa.tempo_gasto - (sprint.bloco_min / 60))
+                slot.status = "livre"
+                slot.tarefa = None
+                salvar_sprint(sprint)
+                st.success("Slot desalocado!")
+                st.rerun()
+    with st.expander("Ver todos os slots livres"):
+        for slot in livres:
+            st.write(slot.datetime.strftime('%Y-%m-%d %H:%M'))
 
     if 'sprint' in locals() and sprint is not None:
         st.subheader("🗓️ Visualização Estilo Calendário")
