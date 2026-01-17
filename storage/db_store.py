@@ -36,6 +36,16 @@ def salvar_sprint_db(sprint: Sprint):
             "tarefa": slot.tarefa,
         }
         supabase.table("slots").upsert(slot_data).execute()
+    # Salva daily_reports
+    for dia, tarefas in sprint.daily_reports.items():
+        for tarefa_nome, texto in tarefas.items():
+            report_data = {
+                "sprint_id": sprint.id,
+                "dia": dia,
+                "tarefa_nome": tarefa_nome,
+                "texto": texto,
+            }
+            supabase.table("daily_reports").upsert(report_data).execute()
 
 def carregar_sprint_db(sprint_id: str) -> Sprint:
     sprint_resp = supabase.table("sprints").select("*").eq("id", sprint_id).execute()
@@ -59,4 +69,14 @@ def carregar_sprint_db(sprint_id: str) -> Sprint:
         slot.status = s["status"]
         slot.tarefa = s["tarefa"]
         sprint.slots.append(slot)
+    # Carrega daily_reports
+    reports_resp = supabase.table("daily_reports").select("*").eq("sprint_id", sprint_id).execute()
+    sprint.daily_reports = {}
+    for r in reports_resp.data:
+        dia = r["dia"]
+        tarefa_nome = r["tarefa_nome"]
+        texto = r["texto"]
+        if dia not in sprint.daily_reports:
+            sprint.daily_reports[dia] = {}
+        sprint.daily_reports[dia][tarefa_nome] = texto
     return sprint

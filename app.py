@@ -8,12 +8,14 @@ from storage.file_store import salvar_sprint, carregar_sprint
 from storage.db_store import salvar_sprint_db, carregar_sprint_db
 from core.auth import login, check_auth, get_current_user, logout
 import os
+from fpdf import FPDF
+import tempfile
 
 st.set_page_config(page_title="Sprint Scheduler", layout="wide")  # <-- PRIMEIRO comando Streamlit
 
 DATA_DIR = "data"
 
-
+'''
 # ----------- AUTENTICAÇÃO -----------
 if not check_auth():
     login()
@@ -23,7 +25,7 @@ user = get_current_user()
 st.sidebar.success(f"Logado como: {user.email}")
 if st.sidebar.button("🚪 Logout"):
     logout()
-
+'''
 
 # ----------- SESSÃO -----------
 #st.set_page_config(page_title="Sprint Scheduler", layout="wide")
@@ -93,41 +95,28 @@ if 'sprint' in locals():
         for tarefa in sprint.tarefas:
             col1, col2, col3, col4 = st.columns([3, 1, 1, 1])
             col1.markdown(f"**{tarefa.nome}** – ⏱️ {tarefa.tempo_gasto:.1f}h de {tarefa.tempo_estimado:.1f}h")
-            
-            # Botão Editar
+
+            # Botão Editar ativa o modo de edição
             if col2.button("✏️ Editar", key=f"edit_{tarefa.nome}"):
-                with st.form(f"edit_form_{tarefa.nome}"):
-                    novo_nome = st.text_input("Novo nome", value=tarefa.nome)
-                    novo_tempo = st.number_input("Novo tempo estimado (horas)", min_value=0.5, step=0.5, value=tarefa.tempo_estimado)
-                    nova_cor = st.color_picker("Nova cor", value=tarefa.cor)
-                    submit_edit = st.form_submit_button("Salvar alterações")
-                    if submit_edit:
-                        tarefa.nome = novo_nome
-                        tarefa.tempo_estimado = novo_tempo
-                        tarefa.cor = nova_cor
-                        salvar_sprint(sprint)
-                        st.success("Tarefa alterada com sucesso!")
-                        st.rerun()
-            
+                st.session_state.edit_task = tarefa.nome
+
             # Botão Apagar
             if col3.button("🗑️ Apagar", key=f"del_{tarefa.nome}"):
-                # Libera todos os slots ocupados por essa tarefa
                 for slot in sprint.slots:
                     if slot.tarefa == tarefa.nome:
                         slot.status = "livre"
                         slot.tarefa = None
-                # Remove a tarefa da lista
                 sprint.tarefas = [t for t in sprint.tarefas if t.nome != tarefa.nome]
                 salvar_sprint(sprint)
                 st.warning(f"Tarefa '{tarefa.nome}' apagada e slots liberados.")
                 st.rerun()
-            
+
+            # Alocação de slots (igual ao seu código)
             with col4:
                 if tarefa.blocos_restantes > 0:
                     slots_livres = sprint.get_slots_livres()
                     opcoes = [s.datetime.strftime("%Y-%m-%d %H:%M") for s in slots_livres]
                     selecionados = st.multiselect(f"Alocar blocos para '{tarefa.nome}'", opcoes, key=tarefa.nome)
-
                     if st.button(f"Confirmar alocação", key="btn_"+tarefa.nome):
                         for slot_str in selecionados:
                             dt_slot = datetime.strptime(slot_str, "%Y-%m-%d %H:%M")
@@ -136,6 +125,34 @@ if 'sprint' in locals():
                         st.rerun()
                 else:
                     st.markdown("✅ **Tarefa alocada por completo**")
+
+        # FORMULÁRIO DE EDIÇÃO FORA DO LOOP
+        if "edit_task" in st.session_state:
+            tarefa_edit = next((t for t in sprint.tarefas if t.nome == st.session_state.edit_task), None)
+            if tarefa_edit:
+                st.markdown("---")
+                st.subheader(f"✏️ Editando tarefa: {tarefa_edit.nome}")
+                with st.form(f"edit_form_{tarefa_edit.nome}"):
+                    novo_nome = st.text_input("Novo nome", value=tarefa_edit.nome)
+                    novo_tempo = st.number_input("Novo tempo estimado (horas)", min_value=0.5, step=0.5, value=tarefa_edit.tempo_estimado)
+                    nova_cor = st.color_picker("Nova cor", value=tarefa_edit.cor)
+                    submit_edit = st.form_submit_button("Salvar alterações")
+                    cancelar = st.form_submit_button("Cancelar")
+                    if submit_edit:
+                        tarefa_edit.nome = novo_nome
+                        tarefa_edit.tempo_estimado = novo_tempo
+                        tarefa_edit.cor = nova_cor
+                        # Atualize blocos_restantes se o tempo mudou
+                        tarefa_edit.blocos_restantes = int((novo_tempo * 60) / sprint.bloco_min) - int(tarefa_edit.tempo_gasto / (sprint.bloco_min / 60))
+                        if tarefa_edit.blocos_restantes < 0:
+                            tarefa_edit.blocos_restantes = 0
+                        salvar_sprint(sprint)
+                        st.success("Tarefa alterada com sucesso!")
+                        del st.session_state.edit_task
+                        st.rerun()
+                    if cancelar:
+                        del st.session_state.edit_task
+                        st.rerun()
 
         # ----------- VISÃO DOS SLOTS OCUPADOS -----------
         st.subheader("📆 Slots Alocados")
@@ -182,7 +199,13 @@ if 'sprint' in locals():
 
         colunas[0].markdown("**Hora**")
         for i, dia in enumerate(dias_ordenados):
-            colunas[i+1].markdown(f"**{dia}**")
+            # Somatório de horas alocadas no dia
+            horas_alocadas = sum(
+                sprint.bloco_min / 60
+                for slot in slots_por_dia[dia]
+                if slot.status == "ocupado"
+            )
+            colunas[i+1].markdown(f"**{dia}**<br><span style='font-size:13px;color:#1f77b4'>Alocadas: <b>{horas_alocadas:.1f}h</b></span>", unsafe_allow_html=True)
 
         for hora in horas_padrao:
             colunas = st.columns([1] + [1]*len(dias_ordenados))
@@ -245,6 +268,132 @@ def gerar_relatorio_sprint(sprint):
             f"- **{t.nome}** | Estimado: `{t.tempo_estimado} h` | Gasto: `{t.tempo_gasto:.1f} h` | Restante: `{t.blocos_restantes * (sprint.bloco_min / 60):.1f} h`"
         )
 
+def gerar_pdf_sprint(sprint):
+    from collections import defaultdict
+
+    pdf = FPDF()
+    pdf.add_page()
+    # Logo (opcional)
+    # pdf.image("logo.png", x=10, y=8, w=33)
+    pdf.set_font("Arial", "B", 18)
+    pdf.set_text_color(30, 77, 147)
+    pdf.cell(0, 12, f"Relatório da Sprint: {sprint.id}", ln=True, align="C")
+    pdf.set_draw_color(30, 77, 147)
+    pdf.set_line_width(0.8)
+    pdf.line(10, pdf.get_y(), 200, pdf.get_y())
+    pdf.ln(4)
+
+    pdf.set_font("Arial", "", 12)
+    pdf.set_text_color(0, 0, 0)
+    pdf.cell(0, 8, f"Data de início: {sprint.data_inicio.strftime('%Y-%m-%d')}", ln=True)
+    pdf.cell(0, 8, f"Duração do bloco: {sprint.bloco_min} min", ln=True)
+    pdf.cell(0, 8, f"Total de tarefas: {len(sprint.tarefas)}", ln=True)
+    pdf.ln(4)
+
+    # Tarefas
+    pdf.set_font("Arial", "B", 14)
+    pdf.set_fill_color(220, 230, 241)
+    pdf.cell(0, 10, "Tarefas", ln=True, fill=True)
+    pdf.set_font("Arial", "", 12)
+    for t in sprint.tarefas:
+        pdf.cell(0, 8, f"- {t.nome} | Estimado: {t.tempo_estimado}h | Gasto: {t.tempo_gasto:.1f}h | Restante: {t.blocos_restantes * (sprint.bloco_min / 60):.1f}h", ln=True)
+    pdf.ln(2)
+
+    # Slots ocupados
+    pdf.set_font("Arial", "B", 14)
+    pdf.set_fill_color(220, 241, 220)
+    pdf.cell(0, 10, "Slots Ocupados", ln=True, fill=True)
+    pdf.set_font("Arial", "", 12)
+    for s in sprint.slots:
+        if s.status == "ocupado":
+            pdf.cell(0, 8, f"{s.datetime.strftime('%Y-%m-%d %H:%M')} -> {s.tarefa}", ln=True)
+    pdf.ln(2)
+
+    # Reports diários
+    pdf.set_font("Arial", "B", 14)
+    pdf.set_fill_color(241, 241, 220)
+    pdf.cell(0, 10, "Reports Diários", ln=True, fill=True)
+    pdf.set_font("Arial", "", 12)
+    for dia, tarefas in sprint.daily_reports.items():
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(0, 8, f"Dia: {dia}", ln=True)
+        pdf.set_font("Arial", "", 12)
+        for tarefa_nome, texto in tarefas.items():
+            pdf.multi_cell(0, 8, f"  {tarefa_nome}: {texto}")
+        pdf.ln(1)
+    pdf.ln(2)
+
+    # Resumo diário de tarefas realizadas
+    pdf.set_font("Arial", "B", 14)
+    pdf.set_fill_color(230, 220, 241)
+    pdf.cell(0, 10, "Resumo Diário de Tarefas Realizadas", ln=True, fill=True)
+    pdf.set_font("Arial", "", 12)
+    from collections import defaultdict
+    slots_por_dia = defaultdict(list)
+    for slot in sprint.slots:
+        if slot.status == "ocupado":
+            dia = slot.datetime.strftime("%Y-%m-%d")
+            slots_por_dia[dia].append(slot)
+    for dia in sorted(slots_por_dia.keys()):
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(0, 8, f"Dia: {dia}", ln=True)
+        pdf.set_font("Arial", "", 12)
+        blocos_por_tarefa = defaultdict(int)
+        for slot in slots_por_dia[dia]:
+            blocos_por_tarefa[slot.tarefa] += 1
+        for tarefa_nome, blocos in blocos_por_tarefa.items():
+            horas = blocos * (sprint.bloco_min / 60)
+            pdf.cell(0, 8, f"  {tarefa_nome}: {blocos} blocos ({horas:.2f}h)", ln=True)
+        pdf.ln(1)
+
+    # --- Visualização estilo calendário (blocos por dia/horário) ---
+    from collections import defaultdict
+    slots_por_dia = defaultdict(list)
+    for slot in sprint.slots:
+        dia = slot.datetime.strftime("%Y-%m-%d")
+        slots_por_dia[dia].append(slot)
+
+    dias_ordenados = sorted(slots_por_dia.keys())
+    horas_padrao = [f"{h:02d}:{m:02d}" for h in range(7, 18) for m in (30, 0)]  # 7:30 até 17:30
+
+    # Divide os dias em blocos de 5
+    blocos_dias = [dias_ordenados[i:i+5] for i in range(0, len(dias_ordenados), 5)]
+
+    for idx, dias_bloco in enumerate(blocos_dias):
+        if idx > 0:
+            pdf.add_page()
+        pdf.set_font("Arial", "B", 13)
+        pdf.set_fill_color(220, 230, 241)
+        pdf.cell(0, 10, f"Calendário de Blocos ({idx*5+1} a {idx*5+len(dias_bloco)})", ln=True, fill=True)
+        pdf.set_font("Arial", "", 9)
+
+        # Cabeçalho da tabela
+        pdf.set_fill_color(200, 200, 220)
+        pdf.cell(20, 8, "Hora", 1, 0, "C", 1)
+        for dia in dias_bloco:
+            pdf.cell(30, 8, dia, 1, 0, "C", 1)
+        pdf.ln()
+
+        # Corpo da tabela
+        for hora in horas_padrao:
+            pdf.set_fill_color(230, 230, 230)
+            pdf.cell(20, 8, hora, 1, 0, "C", 1)
+            for dia in dias_bloco:
+                slot_match = next((s for s in slots_por_dia[dia] if s.datetime.strftime("%H:%M") == hora), None)
+                if slot_match:
+                    if slot_match.status == "ocupado":
+                        tarefa_nome = slot_match.tarefa[:12]
+                        pdf.set_fill_color(100, 180, 100)
+                        pdf.cell(30, 8, tarefa_nome, 1, 0, "C", 1)
+                    else:
+                        pdf.set_fill_color(240, 240, 240)
+                        pdf.cell(30, 8, "Livre", 1, 0, "C", 1)
+                else:
+                    pdf.cell(30, 8, "-", 1, 0, "C")
+            pdf.ln()
+
+    return pdf
+
 # ...no final do app.py, após todas as visualizações...
 if 'sprint' in locals() and sprint is not None:
     gerar_relatorio_sprint(sprint)
@@ -264,3 +413,75 @@ if opcao != "Nova Sprint":
             json.dump(sprint_to_dict(sprint), f, indent=2, default=str)
         st.sidebar.success("Atualizado localmente com dados do Supabase!")
         st.rerun()
+
+    if st.button("📄 Baixar relatório em PDF"):
+        pdf = gerar_pdf_sprint(sprint)
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmpfile:
+            pdf.output(tmpfile.name)
+            with open(tmpfile.name, "rb") as f:
+                st.download_button(
+                    label="Clique aqui para baixar o PDF",
+                    data=f.read(),
+                    file_name=f"relatorio_{sprint.id}.pdf",
+                    mime="application/pdf"
+                )
+
+if 'sprint' in locals() and sprint is not None:
+    st.markdown("---")
+    st.header("📝 Report Diário da Sprint")
+
+    dias_ordenados = sorted(set(slot.datetime.strftime("%Y-%m-%d") for slot in sprint.slots))
+    dia_selecionado = st.selectbox("Selecione o dia para reportar", dias_ordenados)
+
+    # Inicializa o dict se não existir
+    if not hasattr(sprint, "daily_reports"):
+        sprint.daily_reports = {}
+
+    if dia_selecionado not in sprint.daily_reports:
+        sprint.daily_reports[dia_selecionado] = {}
+
+    st.subheader(f"Report do dia {dia_selecionado}")
+
+    # Filtra tarefas alocadas para o dia selecionado
+    tarefas_alocadas = set(
+        slot.tarefa for slot in sprint.slots
+        if slot.status == "ocupado" and slot.datetime.strftime("%Y-%m-%d") == dia_selecionado
+    )
+    tarefas_alocadas = [t for t in sprint.tarefas if t.nome in tarefas_alocadas]
+
+    if not tarefas_alocadas:
+        st.info("Nenhuma tarefa alocada para este dia.")
+    else:
+        for tarefa in tarefas_alocadas:
+            texto = sprint.daily_reports[dia_selecionado].get(tarefa.nome, "")
+            with st.expander(f"Tarefa: {tarefa.nome}"):
+                novo_texto = st.text_area(f"Observações para '{tarefa.nome}'", value=texto, key=f"report_{dia_selecionado}_{tarefa.nome}")
+                col1, col2 = st.columns([1,1])
+                if col1.button("Salvar", key=f"save_{dia_selecionado}_{tarefa.nome}"):
+                    sprint.daily_reports[dia_selecionado][tarefa.nome] = novo_texto
+                    salvar_sprint(sprint)
+                    st.success("Report salvo!")
+                if col2.button("Excluir", key=f"del_{dia_selecionado}_{tarefa.nome}"):
+                    sprint.daily_reports[dia_selecionado].pop(tarefa.nome, None)
+                    salvar_sprint(sprint)
+                    st.warning("Report excluído!")
+                    st.rerun()
+
+if 'sprint' in locals() and sprint is not None:
+    st.markdown("### 📅 Resumo diário de tarefas realizadas")
+    from collections import defaultdict
+    slots_por_dia = defaultdict(list)
+    for slot in sprint.slots:
+        if slot.status == "ocupado":
+            dia = slot.datetime.strftime("%Y-%m-%d")
+            slots_por_dia[dia].append(slot)
+
+    for dia in sorted(slots_por_dia.keys()):
+        st.markdown(f"**Dia: {dia}**")
+        blocos_por_tarefa = defaultdict(int)
+        for slot in slots_por_dia[dia]:
+            blocos_por_tarefa[slot.tarefa] += 1
+        for tarefa_nome, blocos in blocos_por_tarefa.items():
+            horas = blocos * (sprint.bloco_min / 60)
+            st.markdown(f"- {tarefa_nome}: {blocos} blocos ({horas:.2f}h)")
+        st.markdown("---")

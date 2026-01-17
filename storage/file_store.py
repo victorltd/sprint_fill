@@ -43,7 +43,8 @@ def sprint_to_dict(sprint: Sprint):
                 "status": slot.status,
                 "tarefa": slot.tarefa
             } for slot in sprint.slots
-        ]
+        ],
+        "daily_reports": getattr(sprint, "daily_reports", {}),
     }
 
 def dict_to_sprint(data: dict) -> Sprint:
@@ -69,5 +70,7 @@ def dict_to_sprint(data: dict) -> Sprint:
         slot.status = s["status"]
         slot.tarefa = s["tarefa"]
         sprint.slots.append(slot)
+
+    sprint.daily_reports = data.get("daily_reports", {})
 
     return sprint
